@@ -1,0 +1,386 @@
+{% extends 'forecast/layout.html' %}
+{% block content %}
+
+		<div class="mt-5">
+			<div id="container_x" style=""></div>
+
+
+			Average Visbility/Sunshine is constant 11km.
+			<br>
+			Rice volume data are from <a href="http://countrystat.psa.gov.ph" title="">http://countrystat.psa.gov.ph</a>
+			<br>
+			Weather data are from <a href="https://www.wunderground.com" title="">https://www.wunderground.com</a>
+		</div>
+		<div class="tab-pane fade" id="pills-prediction" role="tabpanel" aria-labelledby="pills-profile-tab">
+			
+			
+			<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.10.0"> </script>
+			
+			<script>
+			function change_text() {
+			var button = document.getElementById('toggle_button');
+			var pred_v_1 = document.getElementById('pred1');
+			var x = document.getElementById("inputGroupSelect04").value;
+			if(x == "2015"){
+			// document.getElementById("demo").innerHTML = "You selected: " + x;
+			if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+			button.innerHTML = "Please Wait...";
+			document.getElementById("toggle_button").className = "btn btn-danger disabled";
+			
+			setTimeout(function() { predict_1([21,1]); predict_2([22,2]);predict_3([23,3]); predict_4([24,4]); }, 1000);
+			setTimeout(function() { graph_2018(); }, 2000);
+			if (isNaN(pred_v_1)) {
+			
+			setTimeout(function() { button.innerHTML = "Repeat Prediction"; }, 2000);
+			setTimeout(function() { document.getElementById("toggle_button").className = "btn btn-primary"; }, 2000);
+			
+			};
+			}
+			} else if(x == "2016"){
+			// document.getElementById("demo").innerHTML = "You selected: " + x;
+			if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+			button.innerHTML = "Please Wait...";
+			document.getElementById("toggle_button").className = "btn btn-danger disabled";
+			
+			setTimeout(function() { predict_1([26,1]); predict_2([10,2]);predict_3([11,3]); predict_4([13,4]); }, 1000);
+			setTimeout(function() { graph_2018(); }, 2000);
+			if (isNaN(pred_v_1)) {
+			
+			setTimeout(function() { button.innerHTML = "Repeat Prediction"; }, 2000);
+			setTimeout(function() { document.getElementById("toggle_button").className = "btn btn-primary"; }, 2000);
+			
+			};
+			}
+			} else if(x == "2017"){
+			// document.getElementById("demo").innerHTML = "You selected: " + x;
+			if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+			button.innerHTML = "Please Wait...";
+			document.getElementById("toggle_button").className = "btn btn-danger disabled";
+			
+			setTimeout(function() { predict_1([30,1]); predict_2([14,2]);predict_3([15,3]); predict_4([16,4]); }, 1000);
+			setTimeout(function() { graph_2018(); }, 2000);
+			if (isNaN(pred_v_1)) {
+			
+			setTimeout(function() { button.innerHTML = "Repeat Prediction"; }, 2000);
+			setTimeout(function() { document.getElementById("toggle_button").className = "btn btn-primary"; }, 2000);
+			
+			};
+			}
+			// else {
+			//     button.innerHTML = "Predict";
+			//     document.getElementById("toggle_button").className = "btn btn-primary";
+			//     setTimeout(function() { predict_1([21,1]); predict_2([18,2]);predict_3([19,3]); predict_4([20,4]); }, 1000);
+			//     setTimeout(function() { graph(); }, 2000);
+			// }
+			} else if (x == "2018"){
+			// document.getElementById("demo").innerHTML = "You selected: " + x;
+			if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+			button.innerHTML = "Please Wait...";
+			document.getElementById("toggle_button").className = "btn btn-danger disabled";
+			
+			setTimeout(function() { predict_1([31,1]); predict_2([18,2]);predict_3([19,3]); predict_4([20,4]); }, 1000);
+			setTimeout(function() { graph_2018(); }, 2000);
+			if (isNaN(pred_v_1)) {
+			
+			setTimeout(function() { button.innerHTML = "Repeat Prediction"; }, 2000);
+			setTimeout(function() { document.getElementById("toggle_button").className = "btn btn-primary"; }, 2000);
+			
+			};
+			}
+			// else {
+			//     button.innerHTML = "Predict";
+			//     document.getElementById("toggle_button").className = "btn btn-primary";
+			//     setTimeout(function() { predict_1([21,1]); predict_2([18,2]);predict_3([19,3]); predict_4([20,4]); }, 1000);
+			//     setTimeout(function() { graph(); }, 2000);
+			// }
+			} else if (x == "2019") {
+			// document.getElementById("demo").innerHTML = "You selected: " + x;
+			if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+			button.innerHTML = "Please Wait...";
+			document.getElementById("toggle_button").className = "btn btn-danger disabled";
+			
+			setTimeout(function() { predict_1([21,1]); predict_2([22,2]);predict_3([23,3]); predict_4([24,4]); }, 1000);
+			setTimeout(function() { graph_2018(); }, 2000);
+			if (isNaN(pred_v_1)) {
+			
+			setTimeout(function() { button.innerHTML = "Repeat Prediction"; }, 2000);
+			setTimeout(function() { document.getElementById("toggle_button").className = "btn btn-primary"; }, 2000);
+			
+			};
+			}
+			}
+			
+			}
+			</script>
+			<div class="row">
+				<div class="row justify-content-center">
+					<div class="row col-sm-8">
+						<div class="col-4 input-group">
+							
+							<select class="custom-select" id="sourcefile" aria-label="">
+								<option selected>Data Source</option>
+								<option value="Database">Database (default)</option>
+								<option value="CSV">CSV</option>
+							</select>
+							
+							<!-- 	<div class="input-group-append">
+									<button id="" class="btn btn-primary" type="button" onclick="">Source File</button>
+							</div> -->
+						</div>
+						<div class="col input-group">
+							<div class="input-group-append">
+								<button id="toggle_button" class="btn btn-primary" type="button" onclick="change_text();">Predict</button>
+							</div>
+							<select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+								<option selected>Choose Year</option>
+								<option value="2019">2019</option>
+								<option value="2018">2018</option>
+								<option value="2017">2017</option>
+								<option value="2016">2016</option>
+								<option value="2015">2015</option>
+							</select>
+							
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="padd">
+					
+				</div>
+				<div class="row">
+					<div class="col-sm-3" id=""><p class="h6 my-0">Jan/Feb/Mar(1st Quarter)</p><kbd id="pred1"></kbd></div>
+					<div class="col-sm-3" id=""><p class="h6 my-0">Apr/May/Jun(2nd Quarter)</p><kbd id="pred2"></kbd></div>
+					<div class="col-sm-3" id=""><p class="h6 my-0">Jul/Aug/Sep(3rd Quarter)</p><kbd id="pred3"></kbd></div>
+					<div class="col-sm-3" id=""><p class="h6 my-0">Oct/Nov/Dec(4th Quarter)</p><kbd id="pred4"></kbd></div>
+				</div>
+			</div>
+			<div>
+				<!-- <div id="container" style="height: 400px;"></div> -->
+				<hr>
+				<div id="predict" style="height: 100%; width: 100%;"></div>
+			</div>
+			{% load static %}
+			<script src="{% static 'tensorflow/index.js' %}"></script>
+			<script type="text/javascript" src="{% static 'tensorflow/modeljs/model.js' %}"></script>
+		</div>
+		
+	<script>
+	
+	Highcharts.chart('container_x', {
+	chart: {
+			zoomType: 'xy'
+			},
+			title: {
+			text: 'Quarterly Rice Volume Data and Weather Data of Davao del Sur'
+			},
+			subtitle: {
+			text: null
+			},
+			xAxis: [{
+			categories: [{% for data in data %}
+											"{{data.year}}-{{data.quarter}}",
+								{% endfor %}
+								],
+			crosshair: true
+			}],
+			yAxis: [{ // Primary yAxis
+			labels: {
+			format: '{value}°C',
+			style: {
+			color: "red"
+			}
+			},
+			title: {
+			text: 'Temperature',
+			style: {
+			color: "red"
+			}
+			},
+			opposite: true
+			}, { // Secondary yAxis
+			gridLineWidth: 0,
+			title: {
+			text: 'Rice Volume',
+			style: {
+			color: "green"
+			}
+			},
+			labels: {
+			format: '{value} t',
+			style: {
+			color: "green"
+			}
+			}
+			}, { // Tertiary yAxis
+			gridLineWidth: 0,
+			title: {
+			text: 'Humidity',
+			style: {
+			color: "rgb(124, 181, 236)"
+			}
+			},
+			labels: {
+			format: '{value} mb',
+			style: {
+			color: "rgb(124, 181, 236)"
+			}
+			},
+			opposite: true
+			}, { // 4 ___ Tertiary yAxis + 4
+			gridLineWidth: 0,
+			title: {
+			text: 'Rainfall',
+			style: {
+			color: "blue"
+			}
+			},
+			labels: {
+			format: '{value} mb',
+			style: {
+			color: "blue"
+			}
+			},
+			opposite: true
+			}],
+			tooltip: {
+			shared: true
+			},
+			legend: {
+			layout: 'vertical',
+			align: 'left',
+			x: 90,
+			verticalAlign: 'top',
+			y: 5,
+			floating: true,
+			backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#a1f1ae6b'
+			},
+			series: [{
+			name: 'Rice Volume',
+			type: 'column',
+			yAxis: 1,
+			// color:"green",
+			data: [{% for data in data %}
+											{{data.dvo_data}},
+								{% endfor %}],
+			tooltip: {
+			valueSuffix: ' t'
+			}
+			}, {
+			name: 'Humidity',
+			type: 'spline',
+			yAxis: 2,
+			data: [{% for data in data %}
+											{{data.humidity}},
+								{% endfor %}],
+			marker: {
+			enabled: false
+			},
+			dashStyle: 'shortdot',
+			tooltip: {
+			valueSuffix: ' %'
+			}
+			}, { // Rainfall
+			name: 'Rainfall',
+			type: 'spline',
+			color: "blue",
+			yAxis: 3,
+			data: [{% for data in data %}
+											{{data.rainfall}},
+								{% endfor %}],
+			marker: {
+			enabled: false
+			},
+			dashStyle: 'shortdot',
+			tooltip: {
+			valueSuffix: ' mm'
+			}
+			}, {
+			name: 'Temperature',
+			type: 'spline',
+			color:"red",
+			data: [{% for data in data %}
+											{{data.temperature}},
+								{% endfor %}],
+					marker: {
+			enabled: false
+			},
+					dashStyle: 'shortdot',
+			tooltip: {
+			valueSuffix: ' °C'
+			}
+			}]
+			});
+	function graph_2018() {
+		var x = document.getElementById("inputGroupSelect04").value;
+			if (x=='2018') {
+		var output_data = [{% for by_2018 in by_2018 %}{{by_2018.dvo_data}}, {% endfor %}];
+	}else if (x=='2017') {
+		var output_data = [{% for by_2017 in by_2017 %}{{by_2017.dvo_data}}, {% endfor %}];
+	}else if (x=='2016') {
+		var output_data = [{% for by_2016 in by_2016 %}{{by_2016.dvo_data}}, {% endfor %}];
+	}else if (x=='2015') {
+		var output_data = [{% for by_2015 in by_2015 %}{{by_2015.dvo_data}}, {% endfor %}];
+	} else{
+		var output_data = [false,false,false,false];
+	};
+Highcharts.chart('predict', {
+chart: {
+type: 'column',
+options3d: {
+enabled: true,
+alpha: 15,
+beta: 15,
+viewDistance: 25,
+depth: 40
+}
+},
+title: {
+text: 'Rice Volume Prediction'
+},
+xAxis: {
+categories: [ '1st Quarter','2nd Quarter','3rd Quarter','4th Quarter'],
+labels: {
+skew3d: true,
+style: {
+fontSize: '16px'
+}
+}
+},
+yAxis: {
+allowDecimals: false,
+// min: 0,
+title: {
+text: 'Volume',
+skew3d: true
+}
+},
+tooltip: {
+headerFormat: '<b>{point.key}</b><br>',
+// pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+},
+plotOptions: {
+column: {
+stacking: 'normal',
+depth: 40
+}
+},
+series: [{
+name: 'Present Volume',
+data: output_data,
+stack: 'true_data'
+}, {
+name: 'Prediction',
+data: [
+{y:parseFloat(pred1.innerText)},
+{y:parseFloat(pred2.innerText)},
+{y:parseFloat(pred3.innerText)},
+{y:parseFloat(pred4.innerText)}
+],
+stack: 'prediction'
+}]
+});
+}
+//////////////////////////////////////////////////// ////////////////////////////////////////////////////
+</script>
+{% endblock %}

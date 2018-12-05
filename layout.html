@@ -1,0 +1,89 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		{% load static %}
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<link rel="stylesheet" type="text/css" href="{% static 'new/css/glyphicons.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'new/css/bootstrap_4.min.css' %}">
+		<script src="{% static 'new/js/html5shiv.min.js' %}"></script>
+		<script src="{% static 'new/js/respond.min.js' %}"></script>
+		<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+		<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+		<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+		<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+		<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+		<!--===============================================================================================-->
+		<script src="{% static 'vendor/bootstrap/js4/highcharts.js' %}"></script>
+		<script src="{% static 'vendor/bootstrap/js4/highcharts-3d.js' %}"></script>
+		<script src="{% static 'vendor/bootstrap/js4/series-label.js' %}"></script>
+		<script src="{% static 'vendor/bootstrap/js4/exporting.js' %}"></script>
+		<script src="{% static 'vendor/bootstrap/js4/export-data.js' %}"></script>
+		<!--===============================================================================================-->
+		<!-- Compiled and minified CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'new/css/materialize.min.css' %}">
+		<!-- Compiled and minified JavaScript -->
+		<script src="{% static 'new/js/materialize.min.js' %}"></script>
+		<style>
+			.padd{
+				padding: 2%;
+			}
+			.nav-item {
+				margin-left:5px;
+			}
+			text.highcharts-credits {
+				display: none;
+			}
+			.highcharts-menu-item:last-child {
+				display: none;
+			}
+			#container3 {
+			height: 400px;
+			min-width: 310px;
+			max-width: 800px;
+			margin: 0 auto;
+			}
+			.navbar-inverse{
+				background-color: #fff;
+				margin-top: 20px;
+			}
+		</style>
+		
+		
+	</head>
+	<body class="container-fluid">
+		<div class="row">
+			<nav class="navbar navbar-expand-md fixed-top bg-light">
+				
+				<div class="col">
+					<a href="/" class="text-dark"><h1 class="h4 m-0 p-0">Forecasting of Rice Production | Davao del Sur</h1></a>
+				</div>
+				<div class="col">
+					<ul id="nav-mobile" class="float-right">
+						<li><a class="text-dark" href="/">Home</a></li>
+						<li><a class="text-dark" href="/predict/">Prediction</a></li>
+						<li><a class="text-dark" href="/admin/forecasting/">Login</a></li>
+					</ul>
+				</div>
+				
+			</nav>
+		</div>
+		<br>
+		{% block content %}
+		{% endblock %}
+		<script src="{% static 'new/js/jquery.min.js' %}"></script>
+		<script src="{% static 'new/js/popper.min.js' %}"></script>
+		<script src="{% static 'new/js/jquery-3.2.1.slim.min.js' %}"></script>
+		<script src="{% static 'new/js/bootstrap.min.js' %}"></script>
+	</body>
+</html>

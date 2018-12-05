@@ -1,0 +1,471 @@
+{% extends 'forecast/layout.html' %}
+{% block content %}
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.10.0"> </script>
+    
+    <script>
+    function displaycurrentyear() {
+        var dt = new Date();
+        var current_year = dt.getYear()+1900;
+        var id_of = String('data_predict_'.concat(current_year));
+        var display = document.getElementById(id_of);
+            display.style.display = "block";
+
+
+        // var dtx = new Date();
+        // document.getElementById("demo").innerHTML = dtx.getYear()+1900;
+        
+    }
+    
+    function changeFunc() {
+        var x = document.getElementById("inputGroupSelect04").value;
+        var id_of = String('data_predict_'.concat(x));
+
+        
+        
+        {% for yearx in group_by_year %} 
+                document.getElementById('data_predict_{{yearx.year|add:"1"}}').style.display = "none";
+            {% if forloop.last %}
+                document.getElementById('data_predict_{{ yearx.year }}').style.display = "none";
+            {% endif %}
+        {% endfor %}
+
+        if (x) {
+            var display = document.getElementById(id_of);
+            display.style.display = "block";
+        }
+    }
+
+
+    </script>
+    <!-- ---------------------------------------------------------------------------------------- -->
+     <script>
+    function predict_trigger() {
+    var button = document.getElementById('toggle_button');
+    var pred_v_1 = document.getElementById('pred1');
+    var x = document.getElementById("inputGroupSelect04").value;
+
+
+
+
+    if (x == "2015") {
+        if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+            button.innerHTML = "Please Wait...";
+            document.getElementById("toggle_button").className = "btn btn-danger disabled";
+
+            setTimeout(function() {
+                predict_1([25, 1]);
+                // predict_2([22, 2]);
+                // predict_3([23, 3]);
+                // predict_4([24, 4]);
+            }, 1000);
+            setTimeout(function() {
+                graph_2018();
+            }, 2000);
+            if (isNaN(pred_v_1)) {
+
+                setTimeout(function() {
+                    button.innerHTML = "Repeat Prediction";
+                }, 2000);
+                setTimeout(function() {
+                    document.getElementById("toggle_button").className = "btn btn-primary";
+                }, 2000);
+
+            };
+        }
+    } else if (x == "2016") {
+        // document.getElementById("demo").innerHTML = "You selected: " + x;
+        if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+            button.innerHTML = "Please Wait...";
+            document.getElementById("toggle_button").className = "btn btn-danger disabled";
+
+            setTimeout(function() {
+                predict_1([29, 1]);
+                // predict_2([10, 2]);
+                // predict_3([11, 3]);
+                // predict_4([13, 4]);
+            }, 1000);
+            setTimeout(function() {
+                graph_2018();
+            }, 2000);
+            if (isNaN(pred_v_1)) {
+
+                setTimeout(function() {
+                    button.innerHTML = "Repeat Prediction";
+                }, 2000);
+                setTimeout(function() {
+                    document.getElementById("toggle_button").className = "btn btn-primary";
+                }, 2000);
+
+            };
+        }
+    } else if (x == "2017") {
+        // document.getElementById("demo").innerHTML = "You selected: " + x;
+        if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+            button.innerHTML = "Please Wait...";
+            document.getElementById("toggle_button").className = "btn btn-danger disabled";
+
+            setTimeout(function() {
+                predict_1([33, 1]);
+                // predict_2([14, 2]);
+                // predict_3([15, 3]);
+                // predict_4([16, 4]);
+            }, 1000);
+            setTimeout(function() {
+                graph_2018();
+            }, 2000);
+            if (isNaN(pred_v_1)) {
+
+                setTimeout(function() {
+                    button.innerHTML = "Repeat Prediction";
+                }, 2000);
+                setTimeout(function() {
+                    document.getElementById("toggle_button").className = "btn btn-primary";
+                }, 2000);
+
+            };
+        }
+    } else if (x == "2018") {
+        // document.getElementById("demo").innerHTML = "You selected: " + x;
+        if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+            button.innerHTML = "Please Wait...";
+            document.getElementById("toggle_button").className = "btn btn-danger disabled";
+
+            setTimeout(function() {
+                predict_1([37, 1]);
+                // predict_2([18, 2]);
+                // predict_3([19, 3]);
+                // predict_4([20, 4]);
+            }, 1000);
+            setTimeout(function() {
+                graph_2018();
+            }, 2000);
+            if (isNaN(pred_v_1)) {
+
+                setTimeout(function() {
+                    button.innerHTML = "Repeat Prediction";
+                }, 2000);
+                setTimeout(function() {
+                    document.getElementById("toggle_button").className = "btn btn-primary";
+                }, 2000);
+
+            };
+        }
+    } else if (x == "2019") {
+        // document.getElementById("demo").innerHTML = "You selected: " + x;
+        if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
+            button.innerHTML = "Please Wait...";
+            document.getElementById("toggle_button").className = "btn btn-danger disabled";
+
+            setTimeout(function() {
+                predict_1([41, 1]);
+                // predict_2([22, 2]);
+                // predict_3([23, 3]);
+                // predict_4([24, 4]);
+            }, 1000);
+            setTimeout(function() {
+                graph_2018();
+            }, 2000);
+            if (isNaN(pred_v_1)) {
+
+                setTimeout(function() {
+                    button.innerHTML = "Repeat Prediction";
+                }, 2000);
+                setTimeout(function() {
+                    document.getElementById("toggle_button").className = "btn btn-primary";
+                }, 2000);
+
+            };
+        }
+    }
+
+}
+    </script>
+<!-- ---------------------------------------------------------------------------------------- -->
+        <div class="row mt-5 ">
+        <div class="col-12">
+            <div class="col-3 float-right input-group">
+                
+                
+                <select class="custom-select" id="sourcefile" aria-label="">
+                    <option selected value="Database">Database (default)</option>
+                    <option value="CSV">CSV</option>
+                </select>
+
+                <div class="input-group-append mx-3 my-auto">
+                    <b>Data Source</b>
+                </div>
+            </div>
+            <div class="col-3 float-right input-group">
+
+                <select onchange="changeFunc();" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                    <option selected>Choose Year</option>
+                
+                {% for f in group_by_year %}{% if forloop.first %}
+                        
+                        <option value="{{ f.year|add:"1" }}">{{ f.year|add:"1" }}</option>{% endif %}
+                        <option value="{{ f.year }}">{{ f.year }}</option>
+
+
+                {% endfor %}
+                
+                </select>
+                <div class="input-group-append">
+                    <button id="toggle_button" class="btn btn-primary" type="button" onclick="predict_trigger();">Predict</button>
+                </div>
+                
+            </div>
+        </div>
+            
+            
+        </div>
+        
+
+    <div class="row">
+        <div class="col-sm-3" id=""><p class="h6 my-0">Jan/Feb/Mar(1st Quarter)</p><kbd id="pred1"></kbd></div>
+        <div class="col-sm-3" id=""><p class="h6 my-0">Apr/May/Jun(2nd Quarter)</p><kbd id="pred2"></kbd></div>
+        <div class="col-sm-3" id=""><p class="h6 my-0">Jul/Aug/Sep(3rd Quarter)</p><kbd id="pred3"></kbd></div>
+        <div class="col-sm-3" id=""><p class="h6 my-0">Oct/Nov/Dec(4th Quarter)</p><kbd id="pred4"></kbd></div>
+    </div>
+    <div>
+            <hr>
+        <div id="predict" style=""></div>
+        <hr>
+        
+        <hr>
+        <div id="demo"></div>
+        <!-- <div class="highchart_predict" id="data_predict_x" style=""></div> -->
+
+        {% for yearx in group_by_year %}
+            {% if yearx.year == now %}
+            x
+            {% endif %}
+            <div style="display:none;" class="highchart_predict" id="data_predict_{{ yearx.year|add:"1" }}"></div>
+            {% if forloop.last %}
+            <div style="display:none;" class="highchart_predict" id="data_predict_{{ yearx.year }}"></div>
+            {% endif %}
+        {% endfor %}
+
+
+    </div>
+    {% load static %}
+    <!-- <script src="{% static 'tensorflow/index.js' %}"></script> -->
+    <script>
+    // --------------P2018
+    // --------predict_1
+                // predict_1([21, 1]);
+                // predict_2([22, 2]);
+                // predict_3([23, 3]);
+                // predict_4([24, 4]);
+
+
+        const xxs = tf.tensor([
+            {% for datax in data reversed%}
+                {% if datax.quarter == 1 %}
+                  {{ data|length|add:+4 }},
+                  
+                {% endif %}
+            {% endfor %}]);
+        // const xs = tf.tensor([[1,1],[2,2],[3,3],[4,4],[5,1],[6,2],[7,3],[8,4],[9,1],[10,2],[11,3],[12,4],[13,1],[14,2],[15,3],[16,4],[17,1],]);
+        //const ys = tf.tensor([62578,4540,43516,26672,59020,5360,55211,16731,49573,2813,38038,30381,51750,4581,45387,25144,61869], [17, 1]);
+        const xs = tf.tensor([{% for datax in data reversed%}[{{ forloop.counter }},{{datax.quarter}}],{% endfor %}]);
+        const ys = tf.tensor([{% for datax in data reversed%}{{datax.dvo_data}},{% endfor %}],[{% if data %}{{ data|length }}{% endif %},1]);
+        
+
+    async function predict_1(arr) {
+        const model = tf.sequential();
+        model.add(tf.layers.dense({units: 1, inputShape: [2]}));
+        const learningRate = 0.00001;   
+        const optimizer = tf.train.sgd(learningRate);
+        model.compile({
+          loss: 'meanSquaredError',
+          optimizer: optimizer
+        });
+        
+        // ----------------------xxxxxx
+        await model.fit(xs, ys, {epochs: 400});
+       var pred = model.predict(tf.tensor(arr, [1, 2]));
+       var dataNumiric = pred.dataSync();
+       var promise1 = Promise.resolve(dataNumiric);
+       promise1.then(function(value) {
+        // var dx = document.getElementById('pred1').innerText = value;
+        // var pred1 = document.getElementById("pred1").innerText;
+        var fix_float = parseFloat(value).toFixed(2);
+        var pred1_f = parseFloat(fix_float);
+        document.getElementById("pred1").innerHTML= pred1_f + 't';
+        // 
+        
+            });  
+       return promise1;
+
+      }
+    // --------predict_2
+    async function predict_2(arr) {
+        const model = tf.sequential();/////
+        model.add(tf.layers.dense({units: 1, inputShape: [2]}));
+        const learningRate = 0.000001;  
+        const optimizer = tf.train.sgd(learningRate);
+        model.compile({
+          loss: 'meanSquaredError',
+          optimizer: optimizer
+        });
+        await model.fit(xs, ys, {epochs: 450});
+       var pred = model.predict(tf.tensor(arr, [1, 2]));
+       var dataNumiric = pred.dataSync();
+       var promise1 = Promise.resolve(dataNumiric);
+       promise1.then(function(value) {
+        // var dx = document.getElementById('pred2').innerText = value;
+        // var pred2 = document.getElementById("pred2").innerText;
+        var fix_float = parseFloat(value).toFixed(2);
+        var pred2_f = parseFloat(fix_float);
+        document.getElementById("pred2").innerHTML= pred2_f + 't';
+            });
+       return promise1;
+      }
+    // --------predict_3
+    async function predict_3(arr) {
+        const model = tf.sequential();
+        model.add(tf.layers.dense({units: 1, inputShape: [2]}));
+        const learningRate = 0.00001;   
+        const optimizer = tf.train.sgd(learningRate);
+        model.compile({
+          loss: 'meanSquaredError',
+          optimizer: optimizer
+        });
+        await model.fit(xs, ys, {epochs: 1000});
+       var pred = model.predict(tf.tensor(arr, [1, 2]));
+       var dataNumiric = pred.dataSync();
+       var promise1 = Promise.resolve(dataNumiric);
+       promise1.then(function(value) {
+        // var dx = document.getElementById('pred3').innerText = value;
+        // var pred3 = document.getElementById("pred3").innerText;
+        var fix_float = parseFloat(value).toFixed(2);
+        var pred3_f = parseFloat(fix_float);
+        document.getElementById("pred3").innerHTML= pred3_f +'t';
+            });
+       return promise1;
+      }
+    // --------predict_4
+    async function predict_4(arr) {
+        const model = tf.sequential();
+        model.add(tf.layers.dense({units: 1, inputShape: [2]}));
+        const learningRate = 0.00001;   
+        const optimizer = tf.train.sgd(learningRate);
+        model.compile({
+          loss: 'meanSquaredError',
+          optimizer: optimizer
+        });
+        await model.fit(xs, ys, {epochs: 300});
+       var pred = model.predict(tf.tensor(arr, [1, 2]));
+       var dataNumiric = pred.dataSync();
+       var promise1 = Promise.resolve(dataNumiric);
+       promise1.then(function(value) {
+        //var dx = document.getElementById('pred4').innerText = value;
+        //var pred4 = document.getElementById("pred4").innerText;
+        var fix_float = parseFloat(value).toFixed(2);
+        var pred4_f = parseFloat(fix_float);
+        document.getElementById("pred4").innerHTML= pred4_f + 't';
+            });
+       return promise1;
+      }
+    </script>
+
+    <script type="text/javascript" src="{% static 'tensorflow/modeljs/model.js' %}"></script>
+    <script type="text/javascript">
+        function graph_2018() {
+        var x = document.getElementById("inputGroupSelect04").value;
+        if (x=='2018') {
+        var output_data = [{% for by_2018 in by_2018 %}{{by_2018.dvo_data}}, {% endfor %}];
+        }else if (x=='2017') {
+        var output_data = [{% for by_2017 in by_2017 %}{{by_2017.dvo_data}}, {% endfor %}];
+        }else if (x=='2016') {
+        var output_data = [{% for by_2016 in by_2016 %}{{by_2016.dvo_data}}, {% endfor %}];
+        }else if (x=='2015') {
+        var output_data = [{% for by_2015 in by_2015 %}{{by_2015.dvo_data}}, {% endfor %}];
+        } else{
+        var output_data = [false,false,false,false];
+        };
+Highcharts.chart('predict', {
+    chart: {
+        type: 'column',
+        options3d: {
+            enabled: true,
+            alpha: 15,
+            beta: 15,
+            viewDistance: 25,
+            depth: 40
+        }
+    },
+    title: {
+        text: 'Rice Volume Prediction'
+    },
+    xAxis: {
+        categories: ['1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter'],
+        labels: {
+            skew3d: true,
+            style: {
+                fontSize: '16px'
+            }
+        }
+    },
+    yAxis: {
+        allowDecimals: false,
+        // min: 0,
+        title: {
+            text: 'Volume',
+            skew3d: true
+        }
+    },
+    tooltip: {
+        headerFormat: '<b>{point.key}</b><br>',
+        // pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            depth: 40
+        }
+    },
+    series: [{
+        name: 'Present Volume',
+        data: output_data,
+        stack: 'true_data'
+    }, {
+        name: 'Prediction',
+        data: [{
+                y: parseFloat(pred1.innerText)
+            },
+            {
+                y: parseFloat(pred2.innerText)
+            },
+            {
+                y: parseFloat(pred3.innerText)
+            },
+            {
+                y: parseFloat(pred4.innerText)
+            }
+        ],
+        stack: 'prediction'
+    }]
+});
+}
+</script>
+
+
+
+
+
+<script>
+Highcharts.chart("data_predict_{% for f in group_by_year %}{% if forloop.first %}{{ f.year|add:"1" }}{% endif %}{% endfor %}",{chart:{type:"column",options3d:{enabled:!0,alpha:15,beta:15,viewDistance:25,depth:40}},title:{text:"{% for f in group_by_year %}{% if forloop.first %}{{ f.year|add:"1" }}{% endif %}{% endfor %} Rice Volume Prediction"},xAxis:{categories:["1st Quarter","2nd Quarter","3rd Quarter","4th Quarter"],labels:{skew3d:!0,style:{fontSize:"16px"}}},yAxis:{allowDecimals:!1,title:{text:"Volume",skew3d:!0}},tooltip:{headerFormat:"<b>{point.key}</b><br>"},plotOptions:{column:{stacking:"normal",depth:40}},series:[{name:"Present Volume",data:[0,0,0,0],stack:"true_data"},{name:"Prediction",data:[0,0,0,0],stack:"prediction"}]});
+
+{% for yearx in group_by_year %}
+    Highcharts.chart("data_predict_{{ yearx.year }}",{chart:{type:"column",options3d:{enabled:!0,alpha:15,beta:15,viewDistance:25,depth:40}},title:{text:"{{yearx.year}} Rice Volume Prediction"},xAxis:{categories:["1st Quarter","2nd Quarter","3rd Quarter","4th Quarter"],labels:{skew3d:!0,style:{fontSize:"16px"}}},yAxis:{allowDecimals:!1,title:{text:"Volume",skew3d:!0}},tooltip:{headerFormat:"<b>{point.key}</b><br>"},plotOptions:{column:{stacking:"normal",depth:40}},series:[{name:"Present Volume",data:[{% for datax in quarter_data_order %}{% if yearx.year == datax.year %}{{datax.dvo_data}},{% endif %}{% endfor %}],stack:"true_data"},{name:"Prediction",data:[0,0,0,0],stack:"prediction"}]});
+{% endfor %}
+</script>
+<script>displaycurrentyear(); graph_2018();</script>
+
+
+
+{% load static %}
+{% endblock %}
