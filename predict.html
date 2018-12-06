@@ -366,42 +366,11 @@ Highcharts.chart('predict', {
             depth: 40
         }
     },
-    title: {
-        text: 'Rice Volume Prediction'
-    },
-    xAxis: {
-        categories: ['1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter'],
-        labels: {
-            skew3d: true,
-            style: {
-                fontSize: '16px'
-            }
-        }
-    },
-    yAxis: {
-        allowDecimals: false,
-        // min: 0,
-        title: {
-            text: 'Volume',
-            skew3d: true
-        }
-    },
-    tooltip: {
-        headerFormat: '<b>{point.key}</b><br>',
-        // pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
-    },
-    plotOptions: {
-        column: {
-            stacking: 'normal',
-            depth: 40
-        }
-    },
-    series: [{
-        name: 'Present Volume',
-        data: output_data,
-        stack: 'true_data'
-    }, {
-        name: 'Prediction',
+    title: {text: 'Rice Volume Prediction'},
+    xAxis: {categories: ['1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter'], labels: {skew3d: true,style: {fontSize: '16px'}}}, yAxis: {allowDecimals: false,/*min: 0,*/ title: {text: 'Volume', skew3d: true}},
+    tooltip: {headerFormat: '<b>{point.key}</b><br>',/*pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'*/},
+    plotOptions: {column: {stacking: 'normal',depth: 40}},
+    series: [{name: 'Present Volume', data: output_data, stack: 'true_data' }, { name: 'Prediction',
         data: [{
                 y: parseFloat(pred1.innerText)
             },
@@ -415,10 +384,7 @@ Highcharts.chart('predict', {
                 y: parseFloat(pred4.innerText)
             }
         ],
-        stack: 'prediction'
-    }]
-});
-}
+        stack: 'prediction'}]});}
 </script>
 
 
