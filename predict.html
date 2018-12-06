@@ -22,8 +22,6 @@
         var x = document.getElementById("inputGroupSelect04").value;
         var id_of = String('data_predict_'.concat(x));
 
-        
-        
         {% for yearx in group_by_year %} 
                 document.getElementById('data_predict_{{yearx.year|add:"1"}}').style.display = "none";
             {% if forloop.last %}
@@ -48,32 +46,23 @@
     var pred_v_1 = document.getElementById('pred1');
     var x = document.getElementById("inputGroupSelect04").value;
 
-{% for dataQ in last_data_quarter %}
-    {% if dataQ.quarter == 1 %}
-        {% for datax in data reversed %}
+{% for dataQ in last_data_quarter %}{% if dataQ.quarter == 1 %}{% for datax in data reversed %}
             var xs{{ datax.year }}{{ datax.quarter }} = [{{ quarter_plus_4|add:forloop.counter0 }},{{datax.quarter}}];
-            {% if forloop.last %}
-                var xs{{ datax.year }}2 = [{{ quarter_plus_4|add:forloop.counter }},2];
+            {% if forloop.last %}var xs{{ datax.year }}2 = [{{ quarter_plus_4|add:forloop.counter }},2];
                 var xs{{ datax.year }}3 = [{{ quarter_plus_4|add:forloop.counter|add:1 }},3];
                 var xs{{ datax.year }}4 = [{{ quarter_plus_4|add:forloop.counter|add:2 }},4];
                 var xs{{ datax.year|add:1 }}1 = [{{ quarter_plus_3|add:forloop.counter|add:4 }},1];
                 var xs{{ datax.year|add:1 }}2 = [{{ quarter_plus_3|add:forloop.counter|add:5 }},2];
                 var xs{{ datax.year|add:1 }}3 = [{{ quarter_plus_3|add:forloop.counter|add:6 }},3];
                 var xs{{ datax.year|add:1 }}4 = [{{ quarter_plus_3|add:forloop.counter|add:7 }},4];
-            {% endif %}
-        {% endfor %}
+                {% endif %}{% endfor %}
     {% elif dataQ.quarter == 2 %}
-        {% for datax in data reversed %}
-        var xs{{ datax.year }}{{ datax.quarter }} = [{{ quarter_plus_3|add:forloop.counter0 }},{{datax.quarter}}];
-            {% if forloop.last %}
-                var xs{{ datax.year }}3 = [{{ quarter_plus_3|add:forloop.counter }},3];
+        {% for datax in data reversed %}var xs{{ datax.year }}{{ datax.quarter }} = [{{ quarter_plus_3|add:forloop.counter0 }},{{datax.quarter}}];{% if forloop.last %}var xs{{ datax.year }}3 = [{{ quarter_plus_3|add:forloop.counter }},3];
                 var xs{{ datax.year }}4 = [{{ quarter_plus_3|add:forloop.counter|add:1 }},4];
                 var xs{{ datax.year|add:1 }}1 = [{{ quarter_plus_3|add:forloop.counter|add:2 }},1];
                 var xs{{ datax.year|add:1 }}2 = [{{ quarter_plus_3|add:forloop.counter|add:3 }},2];
                 var xs{{ datax.year|add:1 }}3 = [{{ quarter_plus_3|add:forloop.counter|add:4 }},3];
-                var xs{{ datax.year|add:1 }}4 = [{{ quarter_plus_3|add:forloop.counter|add:5 }},4];
-            {% endif %}
-        {% endfor %}
+                var xs{{ datax.year|add:1 }}4 = [{{ quarter_plus_3|add:forloop.counter|add:5 }},4];{% endif %}{% endfor %}
     {% elif dataQ.quarter == 3 %}
         {% for datax in data reversed %}
         var xs{{ datax.year }}{{ datax.quarter }} = [{{ quarter_plus_2|add:forloop.counter0 }},{{datax.quarter}}];
@@ -82,9 +71,7 @@
                 var xs{{ datax.year|add:1 }}1 = [{{ quarter_plus_2|add:forloop.counter|add:1 }},1];
                 var xs{{ datax.year|add:1 }}2 = [{{ quarter_plus_2|add:forloop.counter|add:2 }},2];
                 var xs{{ datax.year|add:1 }}3 = [{{ quarter_plus_2|add:forloop.counter|add:3 }},3];
-                var xs{{ datax.year|add:1 }}4 = [{{ quarter_plus_2|add:forloop.counter|add:4 }},4];
-            {% endif %}
-        {% endfor %}    
+                var xs{{ datax.year|add:1 }}4 = [{{ quarter_plus_2|add:forloop.counter|add:4 }},4];{% endif %}{% endfor %}    
     {% elif dataQ.quarter == 4 %}
         {% for datax in data reversed %}
         var xs{{ datax.year }}{{ datax.quarter }} = [{{ quarter_plus_1|add:forloop.counter0 }},{{datax.quarter}}];
@@ -92,12 +79,8 @@
                 var xs{{ datax.year|add:1 }}1 = [{{ quarter_plus_1|add:forloop.counter }},1];
                 var xs{{ datax.year|add:1 }}2 = [{{ quarter_plus_1|add:forloop.counter|add:2 }},2];
                 var xs{{ datax.year|add:1 }}3 = [{{ quarter_plus_1|add:forloop.counter|add:3 }},3];
-                var xs{{ datax.year|add:1 }}4 = [{{ quarter_plus_1|add:forloop.counter|add:4 }},4];
-            {% endif %}
-        {% endfor %}
-
-    {% endif %}
-{% endfor %}
+                var xs{{ datax.year|add:1 }}4 = [{{ quarter_plus_1|add:forloop.counter|add:4 }},4];{% endif %}{% endfor %}
+    {% endif %}{% endfor %}
 
 {% for yearx in group_by_year reversed %}
 
@@ -115,7 +98,7 @@
                 predict_4(xs{{yearx.year}}4);
             }, 1000);
             setTimeout(function() {
-                graph_2018();
+                graph_prediction();
             }, 2000);
             if (isNaN(pred_v_1)) {
 
@@ -140,7 +123,7 @@
                 predict_4(xs{{yearx.year|add:1}}4);
             }, 1000);
             setTimeout(function() {
-                graph_2018();
+                graph_prediction();
             }, 2000);
             if (isNaN(pred_v_1)) {
 
@@ -155,138 +138,6 @@
             }
         {% endif %}
 {% endfor %}
-
-
-    // if (x == "2015") {
-    //     if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
-    //         button.innerHTML = "Please Wait...";
-    //         document.getElementById("toggle_button").className = "btn btn-danger disabled";
-
-    //         setTimeout(function() {
-    //             predict_1([25, 1]);
-    //             // predict_2([22, 2]);
-    //             // predict_3([23, 3]);
-    //             // predict_4([24, 4]);
-    //         }, 1000);
-    //         setTimeout(function() {
-    //             graph_2018();
-    //         }, 2000);
-    //         if (isNaN(pred_v_1)) {
-
-    //             setTimeout(function() {
-    //                 button.innerHTML = "Repeat Prediction";
-    //             }, 2000);
-    //             setTimeout(function() {
-    //                 document.getElementById("toggle_button").className = "btn btn-primary";
-    //             }, 2000);
-
-    //         };
-    //     }
-    // } else if (x == "2016") {
-    //     // document.getElementById("demo").innerHTML = "You selected: " + x;
-    //     if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
-    //         button.innerHTML = "Please Wait...";
-    //         document.getElementById("toggle_button").className = "btn btn-danger disabled";
-
-    //         setTimeout(function() {
-    //             predict_1([29, 1]);
-    //             // predict_2([10, 2]);
-    //             // predict_3([11, 3]);
-    //             // predict_4([13, 4]);
-    //         }, 1000);
-    //         setTimeout(function() {
-    //             graph_2018();
-    //         }, 2000);
-    //         if (isNaN(pred_v_1)) {
-
-    //             setTimeout(function() {
-    //                 button.innerHTML = "Repeat Prediction";
-    //             }, 2000);
-    //             setTimeout(function() {
-    //                 document.getElementById("toggle_button").className = "btn btn-primary";
-    //             }, 2000);
-
-    //         };
-    //     }
-    // } else if (x == "2017") {
-    //     // document.getElementById("demo").innerHTML = "You selected: " + x;
-    //     if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
-    //         button.innerHTML = "Please Wait...";
-    //         document.getElementById("toggle_button").className = "btn btn-danger disabled";
-
-    //         setTimeout(function() {
-    //             predict_1([33, 1]);
-    //             // predict_2([14, 2]);
-    //             // predict_3([15, 3]);
-    //             // predict_4([16, 4]);
-    //         }, 1000);
-    //         setTimeout(function() {
-    //             graph_2018();
-    //         }, 2000);
-    //         if (isNaN(pred_v_1)) {
-
-    //             setTimeout(function() {
-    //                 button.innerHTML = "Repeat Prediction";
-    //             }, 2000);
-    //             setTimeout(function() {
-    //                 document.getElementById("toggle_button").className = "btn btn-primary";
-    //             }, 2000);
-
-    //         };
-    //     }
-    // } else if (x == "2018") {
-    //     // document.getElementById("demo").innerHTML = "You selected: " + x;
-    //     if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
-    //         button.innerHTML = "Please Wait...";
-    //         document.getElementById("toggle_button").className = "btn btn-danger disabled";
-
-    //         setTimeout(function() {
-    //             predict_1(xs20181);
-    //             // predict_2([18, 2]);
-    //             // predict_3([19, 3]);
-    //             // predict_4([20, 4]);
-    //         }, 1000);
-    //         setTimeout(function() {
-    //             graph_2018();
-    //         }, 2000);
-    //         if (isNaN(pred_v_1)) {
-
-    //             setTimeout(function() {
-    //                 button.innerHTML = "Repeat Prediction";
-    //             }, 2000);
-    //             setTimeout(function() {
-    //                 document.getElementById("toggle_button").className = "btn btn-primary";
-    //             }, 2000);
-
-    //         };
-    //     }
-    // } else if (x == "2019") {
-    //     // document.getElementById("demo").innerHTML = "You selected: " + x;
-    //     if (button.innerHTML === "Predict" || button.innerHTML === "Repeat Prediction") {
-    //         button.innerHTML = "Please Wait...";
-    //         document.getElementById("toggle_button").className = "btn btn-danger disabled";
-
-    //         setTimeout(function() {
-    //             predict_1([41, 1]);
-    //             // predict_2([22, 2]);
-    //             // predict_3([23, 3]);
-    //             // predict_4([24, 4]);
-    //         }, 1000);
-    //         setTimeout(function() {
-    //             graph_2018();
-    //         }, 2000);
-    //         if (isNaN(pred_v_1)) {
-
-    //             setTimeout(function() {
-    //                 button.innerHTML = "Repeat Prediction";
-    //             }, 2000);
-    //             setTimeout(function() {
-    //                 document.getElementById("toggle_button").className = "btn btn-primary";
-    //             }, 2000);
-
-    //         };
-    //     }
-    // }
 
 }
     </script>
@@ -310,14 +161,18 @@
                 <select onchange="changeFunc();" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
                     <option selected>Choose Year</option>
                 
-                {% for f in group_by_year %}{% if forloop.first %}
-                        
-                        <option value="{{ f.year|add:"1" }}">{{ f.year|add:"1" }}</option>{% endif %}
+                {% for f in group_by_year %}
+                    {% if forloop.first %}
+                        <option value="{{ f.year|add:"1" }}">{{ f.year|add:"1" }}</option>
+                    {% endif %}
+
+                    {% if forloop.last %}
+                    {% else %}
                         <option value="{{ f.year }}">{{ f.year }}</option>
-
-
+                    {% endif %}
+                        
                 {% endfor %}
-                
+
                 </select>
                 <div class="input-group-append">
                     <button id="toggle_button" class="btn btn-primary" type="button" onclick="predict_trigger();">Predict</button>
@@ -343,11 +198,10 @@
         
         <hr>
         <div id="demo"></div>
-        <!-- <div class="highchart_predict" id="data_predict_x" style=""></div> -->
+
 
         {% for yearx in group_by_year %}
             {% if yearx.year == now %}
-            x
             {% endif %}
             <div style="display:none;" class="highchart_predict" id="data_predict_{{ yearx.year|add:"1" }}"></div>
             {% if forloop.last %}
@@ -358,14 +212,8 @@
 
     </div>
     {% load static %}
-    <!-- <script src="{% static 'tensorflow/index.js' %}"></script> -->
+
     <script>
-    // --------------P2018
-    // --------predict_1
-                // predict_1([21, 1]);
-                // predict_2([22, 2]);
-                // predict_3([23, 3]);
-                // predict_4([24, 4]);
 
 
         const xxs = tf.tensor([
@@ -478,20 +326,35 @@
     </script>
 
     <script type="text/javascript" src="{% static 'tensorflow/modeljs/model.js' %}"></script>
+    <!-- -------------------------------------------------------------------------------------- -->
     <script type="text/javascript">
-        function graph_2018() {
+        function graph_prediction() {
         var x = document.getElementById("inputGroupSelect04").value;
-        if (x=='2018') {
-        var output_data = [{% for by_2018 in by_2018 %}{{by_2018.dvo_data}}, {% endfor %}];
-        }else if (x=='2017') {
-        var output_data = [{% for by_2017 in by_2017 %}{{by_2017.dvo_data}}, {% endfor %}];
-        }else if (x=='2016') {
-        var output_data = [{% for by_2016 in by_2016 %}{{by_2016.dvo_data}}, {% endfor %}];
-        }else if (x=='2015') {
-        var output_data = [{% for by_2015 in by_2015 %}{{by_2015.dvo_data}}, {% endfor %}];
-        } else{
-        var output_data = [false,false,false,false];
-        };
+{% for datax in group_by_year reversed %}
+    {% if forloop.first %}
+        if (x=='{{datax.year}}') {}
+    {% else %}
+    else if (x=='{{datax.year}}') {
+        var output_data = [{% for data in data reversed %}{% if datax.year == data.year %}{{data.dvo_data}}, {% endif %}{% endfor %}];}
+
+    {% endif %}
+
+    {% if forloop.last %}
+        else {var output_data = [false,false,false,false];};
+    {% endif %}
+
+{% endfor %}
+        // if (x=='2018') {
+        // var output_data = [{% for by_2018 in by_2018 %}{{by_2018.dvo_data}}, {% endfor %}];
+        // }else if (x=='2017') {
+        // var output_data = [{% for by_2017 in by_2017 %}{{by_2017.dvo_data}}, {% endfor %}];
+        // }else if (x=='2016') {
+        // var output_data = [{% for by_2016 in by_2016 %}{{by_2016.dvo_data}}, {% endfor %}];
+        // }else if (x=='2015') {
+        // var output_data = [{% for by_2015 in by_2015 %}{{by_2015.dvo_data}}, {% endfor %}];
+        // } else{
+        // var output_data = [false,false,false,false];
+        // };
 Highcharts.chart('predict', {
     chart: {
         type: 'column',
@@ -559,17 +422,10 @@ Highcharts.chart('predict', {
 </script>
 
 
-
-
-
 <script>
-Highcharts.chart("data_predict_{% for f in group_by_year %}{% if forloop.first %}{{ f.year|add:"1" }}{% endif %}{% endfor %}",{chart:{type:"column",options3d:{enabled:!0,alpha:15,beta:15,viewDistance:25,depth:40}},title:{text:"{% for f in group_by_year %}{% if forloop.first %}{{ f.year|add:"1" }}{% endif %}{% endfor %} Rice Volume Prediction"},xAxis:{categories:["1st Quarter","2nd Quarter","3rd Quarter","4th Quarter"],labels:{skew3d:!0,style:{fontSize:"16px"}}},yAxis:{allowDecimals:!1,title:{text:"Volume",skew3d:!0}},tooltip:{headerFormat:"<b>{point.key}</b><br>"},plotOptions:{column:{stacking:"normal",depth:40}},series:[{name:"Present Volume",data:[0,0,0,0],stack:"true_data"},{name:"Prediction",data:[0,0,0,0],stack:"prediction"}]});
-
-{% for yearx in group_by_year %}
-    Highcharts.chart("data_predict_{{ yearx.year }}",{chart:{type:"column",options3d:{enabled:!0,alpha:15,beta:15,viewDistance:25,depth:40}},title:{text:"{{yearx.year}} Rice Volume Prediction"},xAxis:{categories:["1st Quarter","2nd Quarter","3rd Quarter","4th Quarter"],labels:{skew3d:!0,style:{fontSize:"16px"}}},yAxis:{allowDecimals:!1,title:{text:"Volume",skew3d:!0}},tooltip:{headerFormat:"<b>{point.key}</b><br>"},plotOptions:{column:{stacking:"normal",depth:40}},series:[{name:"Present Volume",data:[{% for datax in quarter_data_order %}{% if yearx.year == datax.year %}{{datax.dvo_data}},{% endif %}{% endfor %}],stack:"true_data"},{name:"Prediction",data:[0,0,0,0],stack:"prediction"}]});
-{% endfor %}
+Highcharts.chart("data_predict_{% for f in group_by_year %}{% if forloop.first %}{{ f.year|add:"1" }}{% endif %}{% endfor %}",{chart:{type:"column",options3d:{enabled:!0,alpha:15,beta:15,viewDistance:25,depth:40}},title:{text:"{% for f in group_by_year %}{% if forloop.first %}{{ f.year|add:"1" }}{% endif %}{% endfor %} Rice Volume"},xAxis:{categories:["1st Quarter","2nd Quarter","3rd Quarter","4th Quarter"],labels:{skew3d:!0,style:{fontSize:"16px"}}},yAxis:{allowDecimals:!1,title:{text:"Volume",skew3d:!0}},tooltip:{headerFormat:"<b>{point.key}</b><br>"},plotOptions:{column:{stacking:"normal",depth:40}},series:[{name:"Present Volume",data:[false,false,false,false],stack:"true_data"},{name:"Prediction",data:[false,false,false,false],stack:"prediction"}]});/*xxx*/{% for yearx in group_by_year %}/*xxx*/Highcharts.chart("data_predict_{{ yearx.year }}",{chart:{type:"column",options3d:{enabled:!0,alpha:15,beta:15,viewDistance:25,depth:40}},title:{text:"{{yearx.year}} Rice Volume"},xAxis:{categories:["1st Quarter","2nd Quarter","3rd Quarter","4th Quarter"],labels:{skew3d:!0,style:{fontSize:"16px"}}},yAxis:{allowDecimals:!1,title:{text:"Volume",skew3d:!0}},tooltip:{headerFormat:"<b>{point.key}</b><br>"},plotOptions:{column:{stacking:"normal",depth:40}},series:[{name:"Present Volume",data:[{% for datax in quarter_data_order %}{% if yearx.year == datax.year %}{{datax.dvo_data}},{% endif %}{% endfor %}],stack:"true_data"},{name:"Prediction",data:[false,false,false,false],stack:"prediction"}]});{% endfor %}
 </script>
-<script>displaycurrentyear(); graph_2018();</script>
+<script>displaycurrentyear(); graph_prediction();</script>
 
 
 
